@@ -72,6 +72,8 @@ public class FlappyBird implements ActionListener {
 				}
 				if (column.intersects(bird)) {
 					gameOver = true;
+					
+					bird.x = column.x - bird.width;
 				}
 			}
 			if (bird.y > HEIGHT - 120 || bird.y < 0) {
