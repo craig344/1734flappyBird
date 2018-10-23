@@ -1,6 +1,8 @@
  package flappyBird;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,6 +13,7 @@ public class FlappyBird implements ActionListener {
 	public static FlappyBird flappyBird;
 	public final int WIDTH = 800, HEIGHT=800;
 	public Renderer renderer;
+	public Rectangle bird;
 	Timer timer = new Timer(20, this);
 	
 	
@@ -24,6 +27,8 @@ public class FlappyBird implements ActionListener {
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jframe.setSize(WIDTH,HEIGHT);
 		jframe.setVisible(true);
+		
+		bird = new Rectangle(WIDTH/2-10,HEIGHT/2-10,20,20);
 		
 		timer.start();
 		
@@ -40,7 +45,11 @@ public class FlappyBird implements ActionListener {
 	}
 	public void repaint(Graphics g) {
 		// TODO Auto-generated method stub
-		System.out.println("Hello");
+		g.setColor(Color.cyan);
+		g.fillRect(0, 0, WIDTH, HEIGHT);
+		 
+		g.setColor(Color.yellow);
+		g.fillRect(bird.x, bird.y, bird.width, bird.height);
 	}
 	
 }
