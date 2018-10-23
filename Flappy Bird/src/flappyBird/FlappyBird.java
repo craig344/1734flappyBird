@@ -18,6 +18,7 @@ public class FlappyBird implements ActionListener {
 	public Rectangle bird;
 	public ArrayList<Rectangle> columns;
 	public Random rand;
+	public int ticks, yMotion;
 	
 	
 	public FlappyBird() {
@@ -49,7 +50,17 @@ public class FlappyBird implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		
+		ticks ++;
+		if(ticks % 2 == 0 && yMotion < 15) {
+			yMotion += 2;
+		}
+		
+		bird.y += yMotion;
+		
 		renderer.repaint();
+		
+		
 	}
 	
 	
@@ -86,6 +97,10 @@ public class FlappyBird implements ActionListener {
 		
 		g.setColor(Color.yellow);
 		g.fillRect(bird.x, bird.y, bird.width, bird.height);
+		
+		for(Rectangle column : columns) {
+			paintColumn(g, column);
+		}
 	}
 	
 	public static void main(String[] args) {
