@@ -25,6 +25,8 @@ public class FlappyBird implements ActionListener {
 		jframe.setSize(WIDTH,HEIGHT);
 		jframe.setVisible(true);
 		
+		timer.start();
+		
 	}
 	
 	@Override
