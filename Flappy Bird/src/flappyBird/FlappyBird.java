@@ -48,6 +48,12 @@ public class FlappyBird implements ActionListener {
 		g.setColor(Color.cyan);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		 
+		g.setColor(Color.orange);
+		g.fillRect(0,HEIGHT-120,WIDTH,120);
+		
+		g.setColor(Color.green);
+		g.fillRect(0,HEIGHT-120,WIDTH,20);
+		
 		g.setColor(Color.yellow);
 		g.fillRect(bird.x, bird.y, bird.width, bird.height);
 	}
