@@ -26,6 +26,7 @@ public class FlappyBird implements ActionListener {
 		jframe.setResizable(false);
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jframe.setSize(WIDTH,HEIGHT);
+		jframe.setTitle("Flappy Bird");
 		jframe.setVisible(true);
 		
 		bird = new Rectangle(WIDTH/2-10,HEIGHT/2-10,20,20);
