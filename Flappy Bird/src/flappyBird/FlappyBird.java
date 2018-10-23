@@ -77,6 +77,10 @@ public class FlappyBird implements ActionListener {
 			if (bird.y > HEIGHT - 120 || bird.y < 0) {
 				gameOver = true;
 			}
+			
+			if(gameOver) {
+				bird.y = HEIGHT - 120 - bird.height;
+			}
 		}
 
 		renderer.repaint();
