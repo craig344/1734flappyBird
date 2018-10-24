@@ -6,21 +6,25 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
-public class FlappyBird implements ActionListener {
+public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 	public static FlappyBird flappyBird;
 	public final int WIDTH = 1366, HEIGHT = 768;
 	public Renderer renderer;
 	public Rectangle bird;
 	public ArrayList<Rectangle> columns;
 	public Random rand;
-	public int ticks, yMotion;
-	public boolean gameOver, started = true;
+	public int ticks, yMotion, score, speed = 7;
+	public boolean gameOver, started;
 
 	public FlappyBird() {
 		JFrame jframe = new JFrame();
@@ -35,8 +39,10 @@ public class FlappyBird implements ActionListener {
 		jframe.setSize(WIDTH, HEIGHT);
 		jframe.setTitle("Flappy Bird");
 		jframe.setVisible(true);
+		jframe.addMouseListener(this);
+		jframe.addKeyListener(this);
 
-		bird = new Rectangle(WIDTH / 2 - 15, HEIGHT / 2 - 15, 30, 30);
+		bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 30, 30);
 		columns = new ArrayList<Rectangle>();
 
 		addColumn(true);
@@ -51,10 +57,9 @@ public class FlappyBird implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		int speed = 7;
 		ticks++;
-
-		if (started) {
+		Boolean flag = true;
+		if (started && !gameOver) {
 			if (ticks % 2 == 0 && yMotion < 15) {
 				yMotion += 2;
 			}
@@ -70,17 +75,26 @@ public class FlappyBird implements ActionListener {
 						addColumn(false);
 					}
 				}
+				
+				if(bird.x + bird.width / 2 > column.x + column.width / 2 - speed / 2 - 1 && bird.x + bird.width / 2 < column.x + column.width / 2 + speed / 2 + 1) {
+					if(flag) {
+						score++;
+						flag = false;
+					}
+					
+				}
+				
 				if (column.intersects(bird)) {
 					gameOver = true;
 					
-					bird.x = column.x - bird.width;
+					//bird.x = column.x - bird.width;
 				}
 			}
-			if (bird.y > HEIGHT - 120 || bird.y < 0) {
+			if (bird.y > HEIGHT - 140 || bird.y < 0) {
 				gameOver = true;
 			}
 			
-			if(gameOver) {
+			if(bird.y + yMotion >= HEIGHT - 120) {
 				bird.y = HEIGHT - 120 - bird.height;
 			}
 		}
@@ -108,6 +122,34 @@ public class FlappyBird implements ActionListener {
 		g.setColor(Color.green.darker());
 		g.fillRect(column.x, column.y, column.width, column.height);
 	}
+	
+	public void jump() {
+		
+		if(gameOver) {
+			bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 30, 30);
+			columns.clear();
+			yMotion = 0;
+			score = 0;
+			
+
+			addColumn(true);
+			addColumn(true);
+			addColumn(true);
+			addColumn(true);
+			
+			gameOver = false;
+		}
+		if(!started) {
+			started = true;
+		}else if(!gameOver) {
+			if(yMotion > 0) {
+				yMotion = -10;
+			}else {
+				yMotion-=10; 
+			}
+		}
+		
+	}
 
 	public void repaint(Graphics g) {
 		// TODO Auto-generated method stub
@@ -133,10 +175,67 @@ public class FlappyBird implements ActionListener {
 		if(gameOver) {
 			g.drawString("Game Over!", 400, HEIGHT / 2 - 50);
 		}
+		if(!started){
+			g.drawString("Click to start!", 375, HEIGHT / 2 - 50);
+		}
+		if(!gameOver && started) {
+			g.drawString(String.valueOf(score), WIDTH / 2 - 25, 100);
+		}
 	}
+	
 
 	public static void main(String[] args) {
 		flappyBird = new FlappyBird();
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		jump();
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+			jump();
+		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
